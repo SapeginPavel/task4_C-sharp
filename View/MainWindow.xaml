@@ -6,7 +6,44 @@
         xmlns:local="clr-namespace:task4"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+    <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+        
+        <!-- ФЕРМА -->
+        <StackPanel>
+            <Label Content="Ферма" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Ферма работает: "/>
+                <Label Content="{Binding Farm.IsWorking}" Name="IsFarmWorking"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Максимально продукции в час: " />
+                <Label Content="{Binding Farm.MaxQuantityPerHour}"/>
+            </StackPanel>
+        </StackPanel>
+        
+        <!-- ХРАНИЛИЩЕ -->
+        <StackPanel Grid.Column="1">
+            <Label Content="Хранилище" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Заполненность: "/>
+                <Label Content="{Binding Storage.CurrentCapacity}"/>
+                <Label Content=" / "/>
+                <Label Content="{Binding Storage.Capacity}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Максимально продукции в час: " />
+                <Label Content="{Binding Farm.MaxQuantityPerHour}"/>
+            </StackPanel>
+        </StackPanel>
+        
     </Grid>
 </Window>

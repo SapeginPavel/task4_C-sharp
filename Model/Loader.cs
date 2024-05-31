@@ -8,6 +8,7 @@ public abstract class Loader : INotifyPropertyChanged
     private int _capacity;
     private int _currentCapacity;
     private int _transportTime;
+    private bool _isMoving;
     delegate void Unloader();
 
     public int CurrentCapacity
@@ -17,6 +18,16 @@ public abstract class Loader : INotifyPropertyChanged
         {
             _currentCapacity = value;
             OnPropertyChanged(nameof(CurrentCapacity));
+        }
+    }
+
+    public bool IsMoving
+    {
+        get => _isMoving;
+        set
+        {
+            _isMoving = value;
+            OnPropertyChanged(nameof(IsMoving));
         }
     }
 
@@ -48,11 +59,14 @@ public abstract class Loader : INotifyPropertyChanged
 
     async public void Send()
     {
+        IsMoving = true;
         Unloader unloader = Unload;
         await Task.Run(() =>
         {
             Thread.Sleep(_transportTime);
             unloader();
+            Thread.Sleep(_transportTime);
+            IsMoving = false;
         });
     }
     

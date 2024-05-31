@@ -5,28 +5,40 @@ namespace task4.Model;
 
 public class Storage : INotifyPropertyChanged
 {
-    private int capacity;
-    private int currentCapacity;
+    private int _capacity;
+    private int _currentCapacity;
 
-    private int CurrentCapacity
+    public int CurrentCapacity
     {
-        get => currentCapacity;
+        get => _currentCapacity;
         set
         {
-            currentCapacity = value;
+            _currentCapacity = value;
             OnPropertyChanged(nameof(CurrentCapacity));
         }
     }
 
-    public Storage(int capacity)
+    public int Capacity
     {
-        this.capacity = capacity;
-        currentCapacity = 0;
+        get => _capacity;
+        private set => _capacity = value;
     }
 
-    public void Add(int amount)
+    public Storage(int capacity)
     {
-        currentCapacity += amount;
+        this._capacity = capacity;
+        _currentCapacity = 0;
+    }
+
+    public bool Add(int amount)
+    {
+        if (_capacity < _currentCapacity + amount)
+        {
+            _currentCapacity = _capacity;
+            return false;
+        }
+        _currentCapacity += amount;
+        return true;
     }
 
     public int TakeAmount(int amount)
@@ -42,6 +54,11 @@ public class Storage : INotifyPropertyChanged
         }
 
         return amount;
+    }
+
+    public bool isEmpty()
+    {
+        return CurrentCapacity == 0;
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;

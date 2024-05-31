@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
-using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace task4.Model;
 
@@ -8,37 +8,73 @@ public class Farm : INotifyPropertyChanged
 {
     private int _maxQuantityPerHour;
     private Storage _storage;
-    private int timeToSleep = 1000;
-    private bool _isDestroy;
+    private int _timeToSleep;
+    private bool _isWorking;
 
-    public bool IsDestroy
+    public bool IsWorking
     {
-        get => _isDestroy;
+        get => _isWorking;
         set
         {
-            _isDestroy = value;
-            OnPropertyChanged(nameof(IsDestroy));
+            _isWorking = value;
+            OnPropertyChanged(nameof(IsWorking));
         }
     }
-    
-    
 
-    async private void StartWorking()
+    public int MaxQuantityPerHour
     {
+        get => _maxQuantityPerHour;
+        private set => _maxQuantityPerHour = value;
+    }
+
+    public Farm(int maxQuantityPerHour, Storage storage)
+    {
+        _maxQuantityPerHour = maxQuantityPerHour;
+        _storage = storage;
+        _isWorking = false;
+        _timeToSleep = 1200;
+
+        _storage.PropertyChanged += (sender, e) =>
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(_storage.CurrentCapacity):
+                    if (_storage.isEmpty())
+                    {
+                        StartWorking();
+                    }
+                    break;
+            }
+        };
+    }
+
+    async public void StartWorking()
+    {
+        IsWorking = true;
         Random random = new Random();
         await Task.Run(() =>
         {
-            Thread.Sleep(timeToSleep);
-
-            IsDestroy = random.Next(1, 50) == 1; //шанс поломки 2%
-
-            if (IsDestroy)
+            while (true)
             {
-                return;
-            }
+                Thread.Sleep(_timeToSleep);
+
+                // MessageBox.Show("РАБОТАЕТ! " + _isWorking);
+
+                IsWorking = random.Next(1, 50) != 1; //шанс поломки 2%
+
+                if (!IsWorking)
+                {
+                    return;
+                }
             
-            int product = random.Next(1, _maxQuantityPerHour);
-            _storage.Add(product);
+                int product = random.Next(1, _maxQuantityPerHour);
+                bool wasAdded = _storage.Add(product);
+
+                if (!wasAdded) //кончилось место
+                {
+                    return;
+                }
+            }
         });
     }
     
