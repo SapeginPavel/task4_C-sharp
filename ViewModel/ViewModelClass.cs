@@ -77,12 +77,22 @@ public class ViewModelClass
     {
         get
         {
-            return (_callMechanicCommand = new CommandClass(o =>
+            return (_loadLoaderCommand = new CommandClass(o =>
             {
-                //todo: исправить код в лоадере
-                //SelectedLoader.Load(Storage.CurrentCapacity);
+                _storage.TakeProduct(SelectedLoader);
             }));
         }
     }
-    //todo: ещё команду для отправки текущей машины и ЗАТЕСТИТЬ
+    
+    private CommandClass _sendLoaderCommand;
+    public CommandClass SendLoaderCommand
+    {
+        get
+        {
+            return (_sendLoaderCommand = new CommandClass(o =>
+            {
+                SelectedLoader.Send();
+            }));
+        }
+    }
 }

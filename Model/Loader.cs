@@ -64,18 +64,27 @@ public abstract class Loader : INotifyPropertyChanged
         WaitingTimeSeconds = 0;
     }
 
-    public void Load(ref int amount)
+    public int GetAvailableCapacity()
     {
+        return Capacity - CurrentCapacity;
+    }
+
+    public bool Load(int amount)
+    {
+        if (IsMoving)
+        {
+            return false;
+        }
         if (_capacity - _currentCapacity < amount)
         {
-            amount = amount - (_capacity - _currentCapacity);
             CurrentCapacity = _capacity;
         }
         else
         {
             CurrentCapacity += amount;
-            amount = 0;
         }
+
+        return true;
     }
     
     public void Unload()
@@ -85,33 +94,29 @@ public abstract class Loader : INotifyPropertyChanged
 
     async public void Send()
     {
-        IsMoving = true;
         Unloader unloader = Unload;
-
-        WaitingTimeSeconds = _transportTime / 1000;
         await Task.Run(() =>
         {
-            // Thread.Sleep(_transportTime);
-            while (WaitingTimeSeconds != 0)
-            {
-                Thread.Sleep(_transportTime);
-                WaitingTimeSeconds -= 1;
-            }
-            {
-                
-            }
-            
+            IsMoving = true;
+            move();
             unloader();
-            
-            WaitingTimeSeconds = _transportTime / 1000;
-            while (WaitingTimeSeconds != 0)
-            {
-                Thread.Sleep(_transportTime);
-                WaitingTimeSeconds -= 1;
-            }
-            
+            move();
             IsMoving = false;
         });
+    }
+
+    private void move()
+    {
+        WaitingTimeSeconds = _transportTime / 1000;
+        while (WaitingTimeSeconds != 0)
+        {
+            Thread.Sleep(1000);
+            if (WaitingTimeSeconds <= 0)
+            {
+                break;
+            }
+            WaitingTimeSeconds -= 1;
+        }
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;

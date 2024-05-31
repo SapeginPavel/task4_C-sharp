@@ -27,12 +27,20 @@ public class Mechanic : INotifyPropertyChanged
 
     async public void RepairFarm(Farm farm)
     {
-        RepairTimeSeconds = _random.Next(2, 7);
+        if (farm.IsWorking)
+        {
+            return;
+        }
+        RepairTimeSeconds = _random.Next(2, 6);
         await Task.Run(() =>
         {
             while (RepairTimeSeconds != 0)
             {
                 Thread.Sleep(1000);
+                if (RepairTimeSeconds <= 0)
+                {
+                    break;
+                }
                 RepairTimeSeconds -= 1;
             }
             farm.StartWorking();

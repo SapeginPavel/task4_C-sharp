@@ -42,19 +42,24 @@ public class Storage : INotifyPropertyChanged
         return true;
     }
 
-    public int TakeAmount(int amount)
+    public void TakeProduct(Loader loader)
     {
-        if (CurrentCapacity >= amount)
+        int availableCapacityInLoader = loader.GetAvailableCapacity();
+        int currentCapacityInThread = CurrentCapacity; //потокобезопасно
+        int forLoadCapacity;
+        if (availableCapacityInLoader >= currentCapacityInThread)
         {
-            CurrentCapacity -= amount;
+            forLoadCapacity = currentCapacityInThread;
         }
         else
         {
-            amount = CurrentCapacity;
-            CurrentCapacity = 0;
+            forLoadCapacity = availableCapacityInLoader;
         }
-
-        return amount;
+        bool wasLoaded = loader.Load(forLoadCapacity);
+        if (wasLoaded)
+        {
+            CurrentCapacity -= forLoadCapacity;
+        }
     }
 
     public bool isEmpty()

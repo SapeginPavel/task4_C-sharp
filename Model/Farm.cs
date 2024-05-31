@@ -34,18 +34,18 @@ public class Farm : INotifyPropertyChanged
         _isWorking = false;
         _timeToSleep = 1000;
 
-        _storage.PropertyChanged += (sender, e) =>
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(_storage.CurrentCapacity):
-                    if (_storage.isEmpty())
-                    {
-                        StartWorking();
-                    }
-                    break;
-            }
-        };
+        // _storage.PropertyChanged += (sender, e) =>
+        // {
+        //     switch (e.PropertyName)
+        //     {
+        //         case nameof(_storage.CurrentCapacity):
+        //             if (_storage.isEmpty())
+        //             {
+        //                 StartWorking();
+        //             }
+        //             break;
+        //     }
+        // };
     }
 
     async public void StartWorking()
@@ -58,7 +58,7 @@ public class Farm : INotifyPropertyChanged
             {
                 Thread.Sleep(_timeToSleep);
 
-                IsWorking = random.Next(1, 7) != 1; //шанс поломки 1/15
+                IsWorking = random.Next(1, 13) != 1; //шанс поломки 1/12
 
                 if (!IsWorking)
                 {
