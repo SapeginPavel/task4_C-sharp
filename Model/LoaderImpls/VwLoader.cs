@@ -2,7 +2,7 @@
 
 public class VwLoader : Loader
 {
-    public VwLoader(int capacity, int transportTime) : base(capacity, transportTime)
+    public VwLoader(string _name, int capacity, int transportTime) : base(_name, capacity, transportTime)
     {
     }
 }

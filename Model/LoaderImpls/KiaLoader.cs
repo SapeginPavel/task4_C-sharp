@@ -2,7 +2,7 @@
 
 public class KiaLoader : Loader
 {
-    public KiaLoader(int capacity, int transportTime) : base(capacity, transportTime)
+    public KiaLoader(string _name, int capacity, int transportTime) : base(_name, capacity, transportTime)
     {
     }
 }

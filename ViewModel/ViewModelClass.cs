@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using task4.Model;
 using task4.Model.LoaderImpls;
 
@@ -13,6 +14,9 @@ public class ViewModelClass
     private KiaLoader _kiaLoader;
     private VolvoLoader _volvoLoader;
     private VwLoader _vwLoader;
+    private Loader _selectedLoader;
+
+    public ObservableCollection<Loader> Loaders { get; set; }
 
     public Farm Farm
     {
@@ -32,6 +36,11 @@ public class ViewModelClass
         set => _mechanic = value ?? throw new ArgumentNullException(nameof(value));
     }
 
+    public Loader SelectedLoader
+    {
+        get => _selectedLoader;
+        set => _selectedLoader = value ?? throw new ArgumentNullException(nameof(value));
+    }
 
     public ViewModelClass(Farm farm, Mechanic mechanic, Storage storage, KiaLoader kiaLoader, VolvoLoader volvoLoader, VwLoader vwLoader)
     {
@@ -41,6 +50,12 @@ public class ViewModelClass
         _kiaLoader = kiaLoader;
         _volvoLoader = volvoLoader;
         _vwLoader = vwLoader;
+
+        Loaders = new ObservableCollection<Loader>();
+        
+        Loaders.Add(kiaLoader);
+        Loaders.Add(volvoLoader);
+        Loaders.Add(vwLoader);
 
         _farm.StartWorking();
     }
@@ -56,4 +71,18 @@ public class ViewModelClass
             }));
         }
     }
+    
+    private CommandClass _loadLoaderCommand;
+    public CommandClass LoadLoaderCommand
+    {
+        get
+        {
+            return (_callMechanicCommand = new CommandClass(o =>
+            {
+                //todo: исправить код в лоадере
+                //SelectedLoader.Load(Storage.CurrentCapacity);
+            }));
+        }
+    }
+    //todo: ещё команду для отправки текущей машины и ЗАТЕСТИТЬ
 }

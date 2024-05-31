@@ -19,7 +19,7 @@
         
         <!-- ФЕРМА -->
         <StackPanel>
-            <Label Content="Ферма" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="Ферма" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Ферма работает: "/>
                 <Label Content="{Binding Farm.IsWorking}" Name="IsFarmWorking"/>
@@ -32,7 +32,7 @@
         
         <!-- ХРАНИЛИЩЕ -->
         <StackPanel Grid.Column="1">
-            <Label Content="Хранилище" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="Хранилище" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Заполненность: "/>
                 <Label Content="{Binding Storage.CurrentCapacity}"/>
@@ -43,7 +43,7 @@
         
         <!-- МЕХАНИК -->
         <StackPanel Grid.Column="2">
-            <Label Content="Механик" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="Механик" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Механику нужно времени: "/>
@@ -51,6 +51,25 @@
                 </StackPanel>
                 <Button Content="Вызвать механика" Command="{Binding CallMechanicCommand}"></Button>
             </StackPanel>
+        </StackPanel>
+        
+        <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Loaders}" SelectedItem="{Binding SelectedLoader}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock FontSize="18" Text="{Binding Path=Name}" />
+                        <TextBlock Text="{Binding Path=CurrentCapacity, StringFormat='Заполнено: {0}'}" />
+                        <TextBlock Text="{Binding Path=Capacity, StringFormat='Из: {0}'}" />
+                        <TextBlock Text="{Binding Path=WaitingTimeSeconds, StringFormat='Осталось времени: {0}'}" />
+                        <TextBlock Text="{Binding Path=IsMoving, StringFormat='В пути: {0}'}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Button Content="Загрузить машину"></Button>
+            <Button Content="Отправить машину"></Button>
         </StackPanel>
         
     </Grid>

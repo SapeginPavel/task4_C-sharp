@@ -2,7 +2,7 @@
 
 public class VolvoLoader : Loader
 {
-    public VolvoLoader(int capacity, int transportTime) : base(capacity, transportTime)
+    public VolvoLoader(string _name, int capacity, int transportTime) : base(_name, capacity, transportTime)
     {
     }
 }

@@ -25,9 +25,9 @@ public partial class MainWindow : Window
         Farm farm = new Farm(4, storage);
         Mechanic mechanic = new Mechanic();
 
-        KiaLoader kiaLoader = new KiaLoader(50, 3000);
-        VolvoLoader volvoLoader = new VolvoLoader(70, 4000);
-        VwLoader vwLoader = new VwLoader(90, 6000);
+        KiaLoader kiaLoader = new KiaLoader("Kia", 50, 3000);
+        VolvoLoader volvoLoader = new VolvoLoader("Volvo", 70, 4000);
+        VwLoader vwLoader = new VwLoader("Volkswagen", 90, 6000);
         
         ViewModelClass vmc = new ViewModelClass(farm, mechanic, storage, kiaLoader, volvoLoader, vwLoader);
         DataContext = vmc;

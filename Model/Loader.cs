@@ -5,10 +5,12 @@ namespace task4.Model;
 
 public abstract class Loader : INotifyPropertyChanged
 {
+    private String name;
     private int _capacity;
     private int _currentCapacity;
     private int _transportTime;
     private bool _isMoving;
+    private int _waitingTimeSeconds;
     delegate void Unloader();
 
     public int CurrentCapacity
@@ -21,6 +23,12 @@ public abstract class Loader : INotifyPropertyChanged
         }
     }
 
+    public int Capacity
+    {
+        get => _capacity;
+        private set => _capacity = value;
+    }
+
     public bool IsMoving
     {
         get => _isMoving;
@@ -31,11 +39,29 @@ public abstract class Loader : INotifyPropertyChanged
         }
     }
 
-    protected Loader(int capacity, int transportTime)
+    public int WaitingTimeSeconds
     {
+        get => _waitingTimeSeconds;
+        set
+        {
+            _waitingTimeSeconds = value;
+            OnPropertyChanged(nameof(WaitingTimeSeconds));
+        }
+    }
+
+    public string Name
+    {
+        get => name;
+        private set => name = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
+    protected Loader(String _name, int capacity, int transportTime)
+    {
+        this.name = _name;
         this._capacity = capacity;
         this._transportTime = transportTime;
         _currentCapacity = 0;
+        WaitingTimeSeconds = 0;
     }
 
     public void Load(ref int amount)
@@ -61,11 +87,29 @@ public abstract class Loader : INotifyPropertyChanged
     {
         IsMoving = true;
         Unloader unloader = Unload;
+
+        WaitingTimeSeconds = _transportTime / 1000;
         await Task.Run(() =>
         {
-            Thread.Sleep(_transportTime);
+            // Thread.Sleep(_transportTime);
+            while (WaitingTimeSeconds != 0)
+            {
+                Thread.Sleep(_transportTime);
+                WaitingTimeSeconds -= 1;
+            }
+            {
+                
+            }
+            
             unloader();
-            Thread.Sleep(_transportTime);
+            
+            WaitingTimeSeconds = _transportTime / 1000;
+            while (WaitingTimeSeconds != 0)
+            {
+                Thread.Sleep(_transportTime);
+                WaitingTimeSeconds -= 1;
+            }
+            
             IsMoving = false;
         });
     }
