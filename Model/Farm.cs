@@ -33,19 +33,6 @@ public class Farm : INotifyPropertyChanged
         _storage = storage;
         _isWorking = false;
         _timeToSleep = 1000;
-
-        // _storage.PropertyChanged += (sender, e) =>
-        // {
-        //     switch (e.PropertyName)
-        //     {
-        //         case nameof(_storage.CurrentCapacity):
-        //             if (_storage.isEmpty())
-        //             {
-        //                 StartWorking();
-        //             }
-        //             break;
-        //     }
-        // };
     }
 
     async public void StartWorking()
@@ -54,11 +41,11 @@ public class Farm : INotifyPropertyChanged
         Random random = new Random();
         await Task.Run(() =>
         {
-            while (true)
+            while (IsWorking)
             {
                 Thread.Sleep(_timeToSleep);
 
-                bool work = random.Next(1, 6) != 1; //шанс поломки 1/12
+                bool work = random.Next(1, 13) != 1; //шанс поломки 1/12
 
                 if (!work)
                 {
@@ -71,7 +58,7 @@ public class Farm : INotifyPropertyChanged
 
                 if (!wasAdded) //кончилось место
                 {
-                    return;
+                    IsWorking = false;
                 }
             }
         });
