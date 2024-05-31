@@ -58,8 +58,6 @@ public class Farm : INotifyPropertyChanged
             {
                 Thread.Sleep(_timeToSleep);
 
-                // MessageBox.Show("РАБОТАЕТ! " + _isWorking);
-
                 IsWorking = random.Next(1, 11) != 1; //шанс поломки 10%
 
                 if (!IsWorking)
