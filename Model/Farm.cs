@@ -32,7 +32,7 @@ public class Farm : INotifyPropertyChanged
         _maxQuantityPerHour = maxQuantityPerHour;
         _storage = storage;
         _isWorking = false;
-        _timeToSleep = 1200;
+        _timeToSleep = 1000;
 
         _storage.PropertyChanged += (sender, e) =>
         {
@@ -60,14 +60,15 @@ public class Farm : INotifyPropertyChanged
 
                 // MessageBox.Show("РАБОТАЕТ! " + _isWorking);
 
-                IsWorking = random.Next(1, 50) != 1; //шанс поломки 2%
+                IsWorking = random.Next(1, 11) != 1; //шанс поломки 10%
 
                 if (!IsWorking)
                 {
+                    MessageBox.Show("Поломка!");
                     return;
                 }
             
-                int product = random.Next(1, _maxQuantityPerHour);
+                int product = random.Next(1, _maxQuantityPerHour + 1);
                 bool wasAdded = _storage.Add(product);
 
                 if (!wasAdded) //кончилось место

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace task4.Model;
 
@@ -27,17 +28,17 @@ public class Storage : INotifyPropertyChanged
     public Storage(int capacity)
     {
         this._capacity = capacity;
-        _currentCapacity = 0;
+        CurrentCapacity = 0;
     }
 
     public bool Add(int amount)
     {
         if (_capacity < _currentCapacity + amount)
         {
-            _currentCapacity = _capacity;
+            CurrentCapacity = _capacity;
             return false;
         }
-        _currentCapacity += amount;
+        CurrentCapacity += amount;
         return true;
     }
 

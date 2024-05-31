@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using task4.Model;
 using task4.Model.LoaderImpls;
 
@@ -30,8 +31,6 @@ public class ViewModelClass : INotifyPropertyChanged
 
     public ViewModelClass(Farm farm, Mechanic mechanic, Storage storage, KiaLoader kiaLoader, VolvoLoader volvoLoader, VwLoader vwLoader)
     {
-        
-        
         _farm = farm;
         _mechanic = mechanic;
         _storage = storage;
@@ -57,12 +56,12 @@ public class ViewModelClass : INotifyPropertyChanged
     
     private void Storage_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        switch (e.PropertyName)
-        {
-            case nameof(Storage.CurrentCapacity):
-                OnPropertyChanged(nameof(Storage.CurrentCapacity));
-                break;
-        }
+        // switch (e.PropertyName)
+        // {
+        //     case nameof(Storage.CurrentCapacity):
+        //         OnPropertyChanged(nameof(Storage.CurrentCapacity));
+        //         break;
+        // }
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;
