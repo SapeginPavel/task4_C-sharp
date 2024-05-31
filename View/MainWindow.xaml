@@ -68,8 +68,8 @@
         </ListBox>
         
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <Button Content="Загрузить машину" Command="{Binding LoadLoaderCommand}"></Button>
-            <Button Content="Отправить машину" Command="{Binding SendLoaderCommand}"></Button>
+            <Button Content="Загрузить машину" Command="{Binding LoadLoaderCommand}" IsEnabled="{Binding IsLoadLoaderEnabled}"></Button>
+            <Button Content="Отправить машину" Command="{Binding SendLoaderCommand}" IsEnabled="{Binding IsSendLoaderEnabled}"></Button>
         </StackPanel>
         
     </Grid>
