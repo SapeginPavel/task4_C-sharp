@@ -58,10 +58,11 @@ public class Farm : INotifyPropertyChanged
             {
                 Thread.Sleep(_timeToSleep);
 
-                IsWorking = random.Next(1, 13) != 1; //шанс поломки 1/12
+                bool work = random.Next(1, 6) != 1; //шанс поломки 1/12
 
-                if (!IsWorking)
+                if (!work)
                 {
+                    IsWorking = false;
                     return;
                 }
             

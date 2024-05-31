@@ -1,20 +1,21 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using task4.Model;
 using task4.Model.LoaderImpls;
 
 namespace task4.ViewModel;
 
-public class ViewModelClass
+public class ViewModelClass : INotifyPropertyChanged
 {
     private Farm _farm;
     private Mechanic _mechanic;
     private Storage _storage;
 
-    private KiaLoader _kiaLoader;
-    private VolvoLoader _volvoLoader;
-    private VwLoader _vwLoader;
     private Loader _selectedLoader;
+
+    private bool _isCallMechanicEnabled;
 
     public ObservableCollection<Loader> Loaders { get; set; }
 
@@ -42,20 +43,30 @@ public class ViewModelClass
         set => _selectedLoader = value ?? throw new ArgumentNullException(nameof(value));
     }
 
+    public bool IsCallMechanicEnabled
+    {
+        get => _isCallMechanicEnabled;
+        set
+        {
+            _isCallMechanicEnabled = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ViewModelClass(Farm farm, Mechanic mechanic, Storage storage, KiaLoader kiaLoader, VolvoLoader volvoLoader, VwLoader vwLoader)
     {
         _farm = farm;
         _mechanic = mechanic;
         _storage = storage;
-        _kiaLoader = kiaLoader;
-        _volvoLoader = volvoLoader;
-        _vwLoader = vwLoader;
+
+        _farm.PropertyChanged += Farm_PropertyChanged;
 
         Loaders = new ObservableCollection<Loader>();
-        
         Loaders.Add(kiaLoader);
         Loaders.Add(volvoLoader);
         Loaders.Add(vwLoader);
+
+        IsCallMechanicEnabled = false;
 
         _farm.StartWorking();
     }
@@ -67,6 +78,7 @@ public class ViewModelClass
         {
             return (_callMechanicCommand = new CommandClass(o =>
             {
+                IsCallMechanicEnabled = false;
                 _mechanic.RepairFarm(_farm);
             }));
         }
@@ -94,5 +106,20 @@ public class ViewModelClass
                 SelectedLoader.Send();
             }));
         }
+    }
+    
+    private void Farm_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Farm.IsWorking))
+        {
+            IsCallMechanicEnabled = !Farm.IsWorking;
+        }
+    }
+    
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

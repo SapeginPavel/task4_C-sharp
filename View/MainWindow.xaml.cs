@@ -21,7 +21,7 @@ public partial class MainWindow : Window
 {
     public MainWindow()
     {
-        Storage storage = new Storage(1000);
+        Storage storage = new Storage(10);
         Farm farm = new Farm(4, storage);
         Mechanic mechanic = new Mechanic();
 

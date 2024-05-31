@@ -49,7 +49,7 @@
                     <Label Content="Механику нужно времени: "/>
                     <Label Content="{Binding Mechanic.RepairTimeSeconds}"/>
                 </StackPanel>
-                <Button Content="Вызвать механика" Command="{Binding CallMechanicCommand}"></Button>
+                <Button Content="Вызвать механика" IsEnabled="{Binding IsCallMechanicEnabled}" Command="{Binding CallMechanicCommand}"></Button>
             </StackPanel>
         </StackPanel>
         
