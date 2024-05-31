@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace task4.Model;
 
@@ -12,11 +13,9 @@ public class Mechanic : INotifyPropertyChanged
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;
-    private void NotifyPropertyChanged(String propertyName)
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
-        if (PropertyChanged != null)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
