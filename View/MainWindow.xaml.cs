@@ -23,7 +23,7 @@ public partial class MainWindow : Window
     {
         Storage storage = new Storage(1000);
         Farm farm = new Farm(4, storage);
-        Mechanic mechanic = new Mechanic(4000);
+        Mechanic mechanic = new Mechanic();
 
         KiaLoader kiaLoader = new KiaLoader(50, 3000);
         VolvoLoader volvoLoader = new VolvoLoader(70, 4000);

@@ -39,9 +39,17 @@
                 <Label Content=" / "/>
                 <Label Content="{Binding Storage.Capacity}"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Максимально продукции в час: " />
-                <Label Content="{Binding Farm.MaxQuantityPerHour}"/>
+        </StackPanel>
+        
+        <!-- МЕХАНИК -->
+        <StackPanel Grid.Column="2">
+            <Label Content="Механик" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Механику нужно времени: "/>
+                    <Label Content="{Binding Mechanic.RepairTimeSeconds}"/>
+                </StackPanel>
+                <Button Content="Вызвать механика" Command="{Binding CallMechanicCommand}"></Button>
             </StackPanel>
         </StackPanel>
         

@@ -5,11 +5,38 @@ namespace task4.Model;
 
 public class Mechanic : INotifyPropertyChanged
 {
-    private int repairTime;
+    private int _repairTimeSeconds;
+    private Random _random;
 
-    public Mechanic(int repairTime)
+    public int RepairTimeSeconds
     {
-        this.repairTime = repairTime;
+        get => _repairTimeSeconds;
+        set
+        {
+            _repairTimeSeconds = value;
+            OnPropertyChanged(nameof(RepairTimeSeconds));
+        }
+    }
+
+    public Mechanic()
+    {
+        RepairTimeSeconds = 0;
+        _random = new Random();
+    }
+
+
+    async public void RepairFarm(Farm farm)
+    {
+        RepairTimeSeconds = _random.Next(1, 6);
+        await Task.Run(() =>
+        {
+            while (RepairTimeSeconds != -1)
+            {
+                Thread.Sleep(1000);
+                RepairTimeSeconds -= 1;
+            }
+            farm.StartWorking();
+        });
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;

@@ -1,4 +1,5 @@
-﻿using task4.Model;
+﻿using System.Windows;
+using task4.Model;
 using task4.Model.LoaderImpls;
 
 namespace task4.ViewModel;
@@ -25,6 +26,12 @@ public class ViewModelClass
         set => _storage = value ?? throw new ArgumentNullException(nameof(value));
     }
 
+    public Mechanic Mechanic
+    {
+        get => _mechanic;
+        set => _mechanic = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
 
     public ViewModelClass(Farm farm, Mechanic mechanic, Storage storage, KiaLoader kiaLoader, VolvoLoader volvoLoader, VwLoader vwLoader)
     {
@@ -36,5 +43,18 @@ public class ViewModelClass
         _vwLoader = vwLoader;
 
         _farm.StartWorking();
+    }
+    
+    private CommandClass _callMechanicCommand;
+    public CommandClass CallMechanicCommand
+    {
+        get
+        {
+            return (_callMechanicCommand = new CommandClass(o =>
+            {
+                MessageBox.Show("Механик вызван");
+                _mechanic.RepairFarm(_farm);
+            }));
+        }
     }
 }
