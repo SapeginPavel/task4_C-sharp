@@ -62,7 +62,6 @@ public class Farm : INotifyPropertyChanged
 
                 if (!IsWorking)
                 {
-                    MessageBox.Show("Поломка!");
                     return;
                 }
             

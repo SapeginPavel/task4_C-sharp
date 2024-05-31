@@ -52,7 +52,6 @@ public class ViewModelClass
         {
             return (_callMechanicCommand = new CommandClass(o =>
             {
-                MessageBox.Show("Механик вызван");
                 _mechanic.RepairFarm(_farm);
             }));
         }
